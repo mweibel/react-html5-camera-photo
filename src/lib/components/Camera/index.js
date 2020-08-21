@@ -72,7 +72,7 @@ function Camera (props) {
     }
   }
 
-  function handleTakePhoto () {
+  async function handleTakePhoto () {
     const configDataUri = {
       sizeFactor: props.sizeFactor,
       imageType: props.imageType,
@@ -81,27 +81,31 @@ function Camera (props) {
       torch: props.torch
     };
 
-    let dataUri = getDataUri(configDataUri);
+    let dataUriBlob = await getDataUri(configDataUri);
+    const reader = new FileReader();
+    reader.readAsDataURL(dataUriBlob);
+    reader.onloadend = async function () {
+      const dataUri = reader.result;
+      if (typeof props.onTakePhoto === 'function') {
+        props.onTakePhoto(dataUri);
+      }
+
+      setDataUri(dataUri);
+      setIsShowVideo(false);
+
+      clearShowVideoTimeout();
+      showVideoTimeoutId = setTimeout(() => {
+        setIsShowVideo(true);
+
+        if (typeof props.onTakePhotoAnimationDone === 'function') {
+          props.onTakePhotoAnimationDone(dataUri);
+        }
+      }, 900);
+    };
 
     if (!props.isSilentMode) {
       playClickAudio();
     }
-
-    if (typeof props.onTakePhoto === 'function') {
-      props.onTakePhoto(dataUri);
-    }
-
-    setDataUri(dataUri);
-    setIsShowVideo(false);
-
-    clearShowVideoTimeout();
-    showVideoTimeoutId = setTimeout(() => {
-      setIsShowVideo(true);
-
-      if (typeof props.onTakePhotoAnimationDone === 'function') {
-        props.onTakePhotoAnimationDone(dataUri);
-      }
-    }, 900);
   }
 
   let videoStyles = getVideoStyles(isShowVideo, props.isImageMirror);
