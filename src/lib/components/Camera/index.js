@@ -77,7 +77,8 @@ function Camera (props) {
       sizeFactor: props.sizeFactor,
       imageType: props.imageType,
       imageCompression: props.imageCompression,
-      isImageMirror: props.isImageMirror
+      isImageMirror: props.isImageMirror,
+      torch: props.torch
     };
 
     let dataUri = getDataUri(configDataUri);
@@ -160,7 +161,8 @@ Camera.propTypes = {
   isFullscreen: PropTypes.bool,
   sizeFactor: PropTypes.number,
   onCameraStart: PropTypes.func,
-  onCameraStop: PropTypes.func
+  onCameraStop: PropTypes.func,
+  torch: PropTypes.bool
 };
 
 Camera.defaultProps = {
