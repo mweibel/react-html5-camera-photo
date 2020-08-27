@@ -34,6 +34,7 @@ function Camera (props) {
 
   const [
     mediaStream,
+    photoCapabilities,
     cameraStartError,
     cameraStopError,
     getDataUri
@@ -50,6 +51,14 @@ function Camera (props) {
       }
     }
   }, [mediaStream]);
+
+  useEffect(() => {
+    if (photoCapabilities) {
+      if (typeof props.onPhotoCapabilities === 'function') {
+        props.onPhotoCapabilities(photoCapabilities);
+      }
+    }
+  }, [photoCapabilities]);
 
   useEffect(() => {
     if (cameraStartError) {
@@ -165,6 +174,7 @@ Camera.propTypes = {
   isFullscreen: PropTypes.bool,
   sizeFactor: PropTypes.number,
   onCameraStart: PropTypes.func,
+  onPhotoCapabilities: PropTypes.func,
   onCameraStop: PropTypes.func,
   torch: PropTypes.bool
 };
