@@ -4,8 +4,14 @@ import LibCameraPhoto from 'jslib-html5-camera-photo';
 let libCameraPhoto = null;
 let needToClean = false;
 
-export function useLibCameraPhoto (videoRef, idealFacingMode, idealResolution, isMaxResolution) {
+export function useLibCameraPhoto (
+  videoRef,
+  idealFacingMode,
+  idealResolution,
+  isMaxResolution
+) {
   const [mediaStream, setMediaStream] = useState(null);
+  const [photoCapabilities, setPhotoCapabilities] = useState(null);
   const [cameraStartError, setCameraStartError] = useState(null);
   const [cameraStopError, setCameraStopError] = useState(null);
 
@@ -21,11 +27,21 @@ export function useLibCameraPhoto (videoRef, idealFacingMode, idealResolution, i
       try {
         let _mediaStream = null;
         if (isMaxResolution) {
-          _mediaStream = await libCameraPhoto.startCameraMaxResolution(idealFacingMode);
+          _mediaStream = await libCameraPhoto.startCameraMaxResolution(
+            idealFacingMode
+          );
         } else {
-          _mediaStream = await libCameraPhoto.startCamera(idealFacingMode, idealResolution);
+          _mediaStream = await libCameraPhoto.startCamera(
+            idealFacingMode,
+            idealResolution
+          );
         }
         setMediaStream(_mediaStream);
+
+        libCameraPhoto
+          .getPhotoCapabilities()
+          .then((caps) => setPhotoCapabilities(caps));
+
         setCameraStartError(null);
       } catch (cameraStartError) {
         setCameraStartError(cameraStartError);
@@ -46,6 +62,7 @@ export function useLibCameraPhoto (videoRef, idealFacingMode, idealResolution, i
           // when the component is umonted videoRef.current == null
           if (videoRef && videoRef.current) {
             setMediaStream(null);
+            setPhotoCapabilities(null);
             setCameraStopError(null);
           }
         } catch (cameraStopError) {
@@ -53,11 +70,23 @@ export function useLibCameraPhoto (videoRef, idealFacingMode, idealResolution, i
         }
       };
     }
-  }, [videoRef, mediaStream, idealFacingMode, idealResolution, isMaxResolution]);
+  }, [
+    videoRef,
+    mediaStream,
+    idealFacingMode,
+    idealResolution,
+    isMaxResolution
+  ]);
 
   function getDataUri (configDataUri) {
     return libCameraPhoto.getDataUri(configDataUri);
   }
 
-  return [mediaStream, cameraStartError, cameraStopError, getDataUri];
+  return [
+    mediaStream,
+    photoCapabilities,
+    cameraStartError,
+    cameraStopError,
+    getDataUri
+  ];
 }
