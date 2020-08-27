@@ -35,7 +35,7 @@
   "homepage": "https://mabelanger.github.io/react-html5-camera-photo/",
   "license": "MIT",
   "dependencies": {
-    "jslib-html5-camera-photo": "mweibel/jslib-html5-camera-photo#cdc7b947440c6456d6f3a019ccf2c45f726fdbdd"
+    "jslib-html5-camera-photo": "mweibel/jslib-html5-camera-photo#9a21397d95581d86a498862b83be30e85118e26e"
   },
   "devDependencies": {
     "autoprefixer": "7.1.6",

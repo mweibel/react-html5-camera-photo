@@ -11,7 +11,6 @@ export function useLibCameraPhoto (
   isMaxResolution
 ) {
   const [mediaStream, setMediaStream] = useState(null);
-  const [photoCapabilities, setPhotoCapabilities] = useState(null);
   const [cameraStartError, setCameraStartError] = useState(null);
   const [cameraStopError, setCameraStopError] = useState(null);
 
@@ -38,10 +37,6 @@ export function useLibCameraPhoto (
         }
         setMediaStream(_mediaStream);
 
-        libCameraPhoto
-          .getPhotoCapabilities()
-          .then((caps) => setPhotoCapabilities(caps));
-
         setCameraStartError(null);
       } catch (cameraStartError) {
         setCameraStartError(cameraStartError);
@@ -62,7 +57,6 @@ export function useLibCameraPhoto (
           // when the component is umonted videoRef.current == null
           if (videoRef && videoRef.current) {
             setMediaStream(null);
-            setPhotoCapabilities(null);
             setCameraStopError(null);
           }
         } catch (cameraStopError) {
@@ -84,7 +78,6 @@ export function useLibCameraPhoto (
 
   return [
     mediaStream,
-    photoCapabilities,
     cameraStartError,
     cameraStopError,
     getDataUri
