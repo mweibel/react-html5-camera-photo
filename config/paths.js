@@ -60,5 +60,5 @@ module.exports = {
 
   // CRL: New paths for library
   appLibIndexJs: resolveApp('src/lib/index.js'),
-  appLibSrc: resolveApp('src/lib'),
+  appLibSrc: [resolveApp('src/lib'), resolveApp('node_modules/jslib-html5-camera-photo/src/lib')],
 };

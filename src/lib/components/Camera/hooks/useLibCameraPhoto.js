@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import LibCameraPhoto from 'jslib-html5-camera-photo';
+import LibCameraPhoto from 'jslib-html5-camera-photo/src/lib';
 
 let libCameraPhoto = null;
 let needToClean = false;

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 // for debugging with git cloned jslib-html5-camera-photo
 // clone jslib-html5-camera-photo inside /src and replace
 // from 'jslib-html5-camera-photo' -> from '../../../jslib-html5-camera-photo/src/lib';
-import { FACING_MODES, IMAGE_TYPES } from 'jslib-html5-camera-photo';
+import { FACING_MODES, IMAGE_TYPES } from 'jslib-html5-camera-photo/src/lib';
 
 import { useLibCameraPhoto } from './hooks/useLibCameraPhoto';
 
